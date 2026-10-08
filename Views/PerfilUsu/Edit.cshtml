@@ -1,0 +1,44 @@
+@model stoiko3.Models.PerfilUsu
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>PerfilUsu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdPerfil" />
+            <div class="form-group">
+                <label asp-for="NomPerfil" class="control-label"></label>
+                <input asp-for="NomPerfil" class="form-control" />
+                <span asp-validation-for="NomPerfil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScoreTotal" class="control-label"></label>
+                <input asp-for="ScoreTotal" class="form-control" />
+                <span asp-validation-for="ScoreTotal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScoreMuscular" class="control-label"></label>
+                <input asp-for="ScoreMuscular" class="form-control" />
+                <span asp-validation-for="ScoreMuscular" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

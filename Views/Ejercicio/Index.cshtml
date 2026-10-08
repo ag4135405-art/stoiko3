@@ -1,0 +1,59 @@
+@model IEnumerable<stoiko3.Models.Ejercicio>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomEjer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.desc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipEjer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MuscEsp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PuntosE)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.NomEjer)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.desc)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.TipEjer)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.MuscEsp)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.PuntosE)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id_ejercicio">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id_ejercicio">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id_ejercicio">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

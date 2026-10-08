@@ -1,0 +1,47 @@
+@model IEnumerable<stoiko3.Models.PerfilUsu>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomPerfil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScoreTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScoreMuscular)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.NomPerfil)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.ScoreTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.ScoreMuscular)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdPerfil">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdPerfil">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdPerfil">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
