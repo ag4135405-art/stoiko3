@@ -1,0 +1,393 @@
+﻿@{
+    ViewData["Title"] = "STOIKO - Crear Cuenta";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0b0d10;
+            --bg-card: #14171d;
+            --bg-input: #1c2029;
+            --orange-primary: #FF5500;
+            --orange-hover: #E04B00;
+            --orange-glow: rgba(255, 85, 0, 0.25);
+            --text-main: #FFFFFF;
+            --text-muted: #94A3B8;
+            --border-color: #222732;
+            --error-color: #FF4D4D;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .register-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 460px;
+            padding: 2.8rem 2.2rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .brand-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            color: var(--orange-primary);
+            text-transform: uppercase;
+            text-shadow: 0 0 20px var(--orange-glow);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .brand-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.4rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1.2rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-input);
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.85rem 1.2rem 0.85rem 3rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--orange-primary);
+            box-shadow: 0 0 12px var(--orange-glow);
+        }
+
+        .form-control:focus + .input-icon {
+            color: var(--orange-primary);
+        }
+
+        .captcha-box {
+            background-color: var(--bg-input);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .captcha-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #0b0d10;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .captcha-code {
+            font-family: 'Montserrat', monospace;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 6px;
+            color: var(--orange-primary);
+            user-select: none;
+            background: linear-gradient(45deg, #FF5500, #FF8800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-refresh-captcha {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-refresh-captcha:hover {
+            color: var(--orange-primary);
+            transform: rotate(180deg);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--orange-primary);
+            color: #FFFFFF;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px var(--orange-glow);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--orange-hover);
+            transform: translateY(-2px);
+        }
+
+        .card-footer-text {
+            text-align: center;
+            margin-top: 1.8rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .card-footer-text a {
+            color: var(--orange-primary);
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .card-footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            position: absolute;
+            top: -2.8rem;
+            left: 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .back-home:hover {
+            color: var(--orange-primary);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .alert-error {
+            background-color: rgba(255, 77, 77, 0.15);
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-card">
+        
+        <a asp-controller="Home" asp-action="Index" class="back-home">
+            <i class="bi bi-arrow-left"></i> Volver a STOIKO
+        </a>
+
+        <div class="brand-header">
+            <a asp-controller="Home" asp-action="Index" class="brand-logo">STOIKO</a>
+            <p class="brand-subtitle">Crea tu cuenta y empieza tu disciplina</p>
+        </div>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert-error">
+                <i class="bi bi-exclamation-triangle-fill"></i> @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <form asp-controller="Home" asp-action="registrousuario" method="post" id="registerForm">
+            
+            @Html.AntiForgeryToken()
+
+            <!-- Correo Electrónico -->
+            <div class="form-group">
+                <label for="Email" class="form-label">Correo Electrónico</label>
+                <div class="input-wrapper">
+                    <input type="email" id="Email" name="Email" class="form-control" placeholder="ejemplo@stoiko.com" required />
+                    <i class="bi bi-envelope-fill input-icon"></i>
+                </div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group">
+                <label for="Password" class="form-label">Contraseña</label>
+                <div class="input-wrapper">
+                    <input type="password" id="Password" name="Password" class="form-control" placeholder="••••••••" required />
+                    <i class="bi bi-lock-fill input-icon"></i>
+                </div>
+            </div>
+
+            <!-- Confirmar Contraseña -->
+            <div class="form-group">
+                <label for="ConfirmPassword" class="form-label">Confirmar Contraseña</label>
+                <div class="input-wrapper">
+                    <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" placeholder="••••••••" required />
+                    <i class="bi bi-shield-lock-fill input-icon"></i>
+                </div>
+                <span id="passwordError" class="error-message">Las contraseñas no coinciden</span>
+            </div>
+
+            <!-- Apartado Captcha -->
+            <div class="captcha-box">
+                <label class="form-label">Verificación de Seguridad</label>
+                <div class="captcha-display">
+                    <span id="captchaText" class="captcha-code">A8K9X</span>
+                    <button type="button" class="btn-refresh-captcha" id="refreshCaptcha" title="Generar otro código">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" id="CaptchaInput" name="CaptchaInput" class="form-control" placeholder="Ingresa el código" required style="padding-left: 1.2rem;" />
+                    
+                    <!-- CAMPO OCULTO PARA PASAR EL CAPTCHA AL BACKEND -->
+                    <input type="hidden" id="ExpectedCaptcha" name="ExpectedCaptcha" value="" />
+                </div>
+                <span id="captchaError" class="error-message">Código Captcha incorrecto</span>
+            </div>
+
+            <!-- Botón de Envío -->
+            <button type="submit" class="btn-submit">Crear Cuenta</button>
+
+        </form>
+
+        <div class="card-footer-text">
+            ¿Ya tienes una cuenta? <a asp-controller="Home" asp-action="iniciar_ses">Inicia sesión</a>
+        </div>
+
+    </div>
+
+    <!-- Script de Validación y Lógica del Captcha -->
+    <script>
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let captcha = '';
+            for (let i = 0; i < 5; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('captchaText').textContent = captcha;
+            
+            // Asignar al campo oculto para que C# pueda validarlo
+            document.getElementById('ExpectedCaptcha').value = captcha; 
+            
+            return captcha;
+        }
+
+        let currentCaptcha = generateCaptcha();
+
+        document.getElementById('refreshCaptcha').addEventListener('click', function() {
+            currentCaptcha = generateCaptcha();
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const pass = document.getElementById('Password').value;
+            const confirmPass = document.getElementById('ConfirmPassword').value;
+            const captchaInput = document.getElementById('CaptchaInput').value.trim().toUpperCase();
+
+            const passError = document.getElementById('passwordError');
+            const captchaErr = document.getElementById('captchaError');
+
+            let isValid = true;
+
+            // Validar coincidencia de contraseña
+            if (pass !== confirmPass) {
+                passError.style.display = 'block';
+                isValid = false;
+            } else {
+                passError.style.display = 'none';
+            }
+
+            // Validar Captcha
+            if (captchaInput !== currentCaptcha) {
+                captchaErr.style.display = 'block';
+                isValid = false;
+            } else {
+                captchaErr.style.display = 'none';
+            }
+
+            if (!isValid) {
+                e.preventDefault(); 
+            }
+        });
+    </script>
+
+</body>
+</html>

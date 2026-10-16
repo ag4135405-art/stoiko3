@@ -1,74 +1,53 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using stoiko3.Models;
+using System.Diagnostics;
 
 namespace stoiko3.Controllers
 {
     public class PerfilUsuController : Controller
     {
-        // GET: PerfilController
-        public ActionResult Index()
+        // ==========================================
+        // PANEL PRINCIPAL DE PERFIL
+        // ==========================================
+        [HttpGet]
+        public IActionResult Index()
         {
-            return View();
+            // Validar que el usuario haya iniciado sesión
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserEmail")))
+            {
+                return RedirectToAction("iniciar_ses", "Home");
+            }
+
+            return View(); // Buscará la vista en Views/PerfilUsu/Index.cshtml
         }
 
-        // GET: PerfilController/Details/5
+        // Si prefieres que la vista se llame directamente "perfil_usu.cshtml" dentro de esta carpeta:
+        [HttpGet]
+        public IActionResult perfil_usu()
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserEmail")))
+            {
+                return RedirectToAction("iniciar_ses", "Home");
+            }
+
+            return View(); // Buscará Views/PerfilUsu/perfil_usu.cshtml
+        }
+
+        // Métodos auxiliares por si mantienes el CRUD básico del scaffolding:
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: PerfilController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: PerfilController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: PerfilController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: PerfilController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: PerfilController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: PerfilController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
         {
             try
             {

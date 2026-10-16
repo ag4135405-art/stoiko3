@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36915.13 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.10.12113.136 insiders
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stoiko3", "stoiko3.csproj", "{E530E760-5A30-4077-BC7D-94016AAFDEA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stoiko3_BETA", "stoiko3_BETA.csproj", "{E530E760-5A30-4077-BC7D-94016AAFDEA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

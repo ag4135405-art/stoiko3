@@ -1,10 +1,14 @@
 using Supabase;
+
 var builder = WebApplication.CreateBuilder(args);
 
-
-//Superbase registration
 var supabaseUrl = builder.Configuration["Supabase:Url"];
 var supabaseKey = builder.Configuration["Supabase:Key"];
+
+if (string.IsNullOrEmpty(supabaseUrl) || string.IsNullOrEmpty(supabaseKey))
+{
+    throw new InvalidOperationException("CRÍTICO: Las credenciales de Supabase (Url o Key) no están configuradas en appsettings.json.");
+}
 
 var supabaseOptions = new SupabaseOptions
 {
@@ -16,18 +20,22 @@ await supabaseClient.InitializeAsync();
 
 builder.Services.AddSingleton(supabaseClient);
 
-// Add services to the container.
+
 builder.Services.AddControllersWithViews();
 
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.Cookie.HttpOnly = true;              
+    options.Cookie.IsEssential = true;             
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -35,6 +43,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 

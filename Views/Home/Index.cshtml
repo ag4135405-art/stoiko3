@@ -1,8 +1,332 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "STOIKO - Entrenamiento & Disciplina";
+    Layout = null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <!-- Fuentes Montserrat e Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0b0d10;
+            --bg-card: #14171d;
+            --bg-card-hover: #1c2029;
+            --orange-primary: #FF5500;
+            --orange-hover: #E04B00;
+            --orange-glow: rgba(255, 85, 0, 0.25);
+            --text-main: #FFFFFF;
+            --text-muted: #94A3B8;
+            --border-color: #222732;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- BARRA SUPERIOR (HEADER) --- */
+        .stoiko-header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 1.2rem 3rem;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .auth-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-stoiko-outline {
+            color: var(--text-main);
+            border: 1.5px solid var(--border-color);
+            background: transparent;
+            padding: 0.6rem 1.4rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-stoiko-outline:hover {
+            border-color: var(--orange-primary);
+            color: var(--orange-primary);
+        }
+
+        .btn-stoiko-primary {
+            background-color: var(--orange-primary);
+            color: #FFFFFF;
+            padding: 0.6rem 1.4rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            box-shadow: 0 4px 15px var(--orange-glow);
+            transition: all 0.3s ease;
+        }
+
+        .btn-stoiko-primary:hover {
+            background-color: var(--orange-hover);
+            transform: translateY(-2px);
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem 3rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* --- HERO CENTRADO --- */
+        .hero-center {
+            text-align: center;
+            padding: 1rem 0 2rem 0;
+        }
+
+        .brand-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 12px;
+            color: var(--orange-primary);
+            text-transform: uppercase;
+            text-shadow: 0 0 25px var(--orange-glow);
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-tagline {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        /* --- CONTENEDOR VACÍO PERSONALIZADO (LAYOUT DEDICADO) --- */
+        .custom-slot {
+            width: 100%;
+            min-height: 220px;
+            margin: 1rem 0 3.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            border: 1px dashed rgba(255, 85, 0, 0.3);
+        }
+
+        /* --- SECCIÓN SOBRE QUÉ TRATA EL PROYECTO --- */
+        .about-section {
+            margin-top: 1rem;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title span {
+            color: var(--orange-primary);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--orange-primary);
+            box-shadow: 0 12px 30px var(--orange-glow);
+            background-color: var(--bg-card-hover);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+            filter: brightness(0.85);
+            transition: filter 0.3s ease;
+        }
+
+        .info-card:hover .card-image {
+            filter: brightness(1);
+        }
+
+        .card-body {
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: var(--orange-primary);
+            margin-bottom: 1rem;
+        }
+
+        .card-body h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .card-body p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* --- FOOTER --- */
+        .stoiko-footer {
+            text-align: center;
+            padding-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        @@media (max-width: 768px) {
+            .stoiko-header {
+                padding: 1rem;
+                justify-content: center;
+            }
+            .brand-title {
+                font-size: 3.5rem;
+                letter-spacing: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BOTONES DE AUTENTICACIÓN (SUPERIOR DERECHA) -->
+    <header class="stoiko-header">
+    <div class="auth-actions">
+            <a asp-controller="Home" asp-action="iniciar_ses" class="btn-stoiko-outline">Iniciar sesión</a>
+           <a asp-controller="Home" asp-action="registrousuario" class="btn-stoiko-primary">Crear cuenta</a>
+    </div>
+    </header>
+
+    <div class="page-wrapper">
+
+        <!-- HEADER PRINCIPAL / LOGO CENTRADO -->
+        <section class="hero-center">
+            <h1 class="brand-title">STOIKO</h1>
+            <p class="brand-tagline">Control, disciplina y seguimiento en tu entrenamiento diario</p>
+
+            <!-- LAYOUT VACÍO PARA IMPLEMENTACIÓN PERSONALIZADA -->
+            <div id="custom-slot-container" class="custom-slot">
+                <!-- Aquí puedes renderizar tu componente de React, parcial Razor o widget personalizado -->
+            </div>
+        </section>
+
+        <!-- SECCIÓN SOBRE QUÉ TRATA EL PROYECTO -->
+        <main class="about-section">
+            <div class="section-heading">
+                <h2 class="section-title">¿De qué trata <span>STOIKO</span>?</h2>
+                <p style="color: var(--text-muted);">Una plataforma enfocada en estructurar tu progreso físico sin distracciones.</p>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Tarjeta 1: Gestión de Rutinas -->
+                <article class="info-card">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" alt="Entrenamiento" class="card-image" />
+                    <div class="card-body">
+                        <i class="bi bi-journal-check card-icon"></i>
+                        <h3>Tus Ejercicios</h3>
+                        <p>
+                            Organiza tu biblioteca de ejercicios personalizando repeticiones, descansos y cargas necesarias para mantener una sobrecarga progresiva eficiente.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Tarjeta 2: Grupos Musculares -->
+                <article class="info-card">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80" alt="Grupos Musculares" class="card-image" />
+                    <div class="card-body">
+                        <i class="bi bi-diagram-3-fill card-icon"></i>
+                        <h3>División Muscular</h3>
+                        <p>
+                            Clasifica tus rutinas por grupos musculares (pecho, espalda, pierna, brazo) garantizando un tiempo óptimo de estimulación y recuperación física.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Tarjeta 3: Perfil y Progreso -->
+                <article class="info-card">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80" alt="Perfil de Usuario" class="card-image" />
+                    <div class="card-body">
+                        <i class="bi bi-person-badge card-icon"></i>
+                        <h3>Perfil y Avance</h3>
+                        <p>
+                            Mapea tu constancia a lo largo del tiempo, revisa tu historial de marcas y mantén el enfoque en cumplir tus metas personales.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="stoiko-footer">
+            <p>&copy; @DateTime.Now.Year STOIKO - Todos los derechos reservados.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
